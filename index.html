@@ -3,73 +3,104 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Birthday 🌳💌</title>
+<title>Cinematic Military ✈️💌</title>
 
 <style>
 body {
     margin: 0;
     overflow: hidden;
     height: 100vh;
-    background: radial-gradient(circle at top, #1e3c72, #2a5298, #0f2027);
+    background: linear-gradient(to top, #1f2c2f, #3a6073, #4ca1af);
     font-family: 'Poppins', sans-serif;
 }
 
-/* BINTANG */
-.star {
+/* VIGNETTE (biar cinematic) */
+body::after {
+    content: "";
     position: absolute;
-    width: 2px;
-    height: 2px;
-    background: white;
-    animation: twinkle 2s infinite;
-}
-@keyframes twinkle {
-    0%,100% { opacity: 0.2; }
-    50% { opacity: 1; }
+    inset: 0;
+    background: radial-gradient(circle, transparent 60%, rgba(0,0,0,0.5));
+    pointer-events: none;
 }
 
-/* POHON */
-.tree {
+/* AWAN */
+.cloud {
     position: absolute;
-    bottom: 0;
-    left: 10%;
-}
-
-.trunk {
-    width: 30px;
-    height: 150px;
-    background: #5c3b1e;
-    margin: auto;
-}
-
-.leaves {
-    width: 150px;
-    height: 120px;
-    background: green;
-    border-radius: 50%;
-    position: relative;
-    top: -50px;
-}
-
-/* KARTU */
-.card {
-    position: absolute;
-    top: -100px;
-    left: 40px;
     width: 120px;
-    height: 80px;
-    background: pink;
+    height: 60px;
+    background: white;
+    border-radius: 50px;
+    opacity: 0.6;
+    animation: cloudMove linear infinite;
+}
+@keyframes cloudMove {
+    from { transform: translateX(-200px);}
+    to { transform: translateX(120vw);}
+}
+
+/* PESAWAT */
+.plane {
+    position: absolute;
+    top: 80px;
+    left: -200px;
+    font-size: 45px;
+    animation: fly 10s linear forwards;
+}
+@keyframes fly {
+    to { transform: translateX(130vw);}
+}
+
+/* ASAP PESAWAT */
+.smoke {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 50%;
+    animation: smoke 2s linear forwards;
+}
+@keyframes smoke {
+    to {
+        transform: translateX(-100px) translateY(-20px);
+        opacity: 0;
+    }
+}
+
+/* SURAT */
+.letter {
+    position: absolute;
+    top: 120px;
+    left: 50%;
+    width: 90px;
+    height: 60px;
+    background: #ffb6c1;
     border-radius: 10px;
     text-align: center;
-    padding-top: 10px;
+    line-height: 60px;
+    font-size: 25px;
     cursor: pointer;
-    animation: none;
+    display: none;
 }
 
-/* ANIMASI JATUH */
-@keyframes fallCard {
-    to {
-        transform: translateY(200px) rotate(20deg);
-    }
+/* JATUH ZIGZAG */
+@keyframes fallZigzag {
+    0% { transform: translateY(0) translateX(0) rotate(0deg);}
+    25% { transform: translateY(120px) translateX(-30px) rotate(-10deg);}
+    50% { transform: translateY(240px) translateX(30px) rotate(10deg);}
+    75% { transform: translateY(360px) translateX(-20px) rotate(-5deg);}
+    100% { transform: translateY(200px) translateX(0);}
+}
+
+/* TENTARA */
+.soldier {
+    position: absolute;
+    bottom: 0;
+    font-size: 40px;
+    animation: march 6s linear infinite;
+}
+@keyframes march {
+    from { transform: translateX(-100px);}
+    to { transform: translateX(120vw);}
 }
 
 /* POPUP */
@@ -78,64 +109,94 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(20px);
+    background: rgba(0,0,0,0.7);
     padding: 30px;
     border-radius: 20px;
     color: white;
     text-align: center;
+    width: 300px;
     transition: 0.5s;
 }
 
 .popup.show {
     transform: translate(-50%, -50%) scale(1);
 }
+
+/* FLASH DRAMATIS */
+.flash {
+    position: fixed;
+    inset: 0;
+    background: white;
+    opacity: 0;
+    pointer-events: none;
+}
 </style>
 </head>
 
 <body>
 
-<!-- BINTANG -->
+<!-- AWAN -->
 <script>
-for(let i=0;i<100;i++){
-    let s=document.createElement("div");
-    s.className="star";
-    s.style.left=Math.random()*100+"vw";
-    s.style.top=Math.random()*100+"vh";
-    document.body.appendChild(s);
+for(let i=0;i<6;i++){
+    let c=document.createElement("div");
+    c.className="cloud";
+    c.style.top=Math.random()*200+"px";
+    c.style.animationDuration=(15+Math.random()*10)+"s";
+    document.body.appendChild(c);
 }
 </script>
 
-<!-- POHON -->
-<div class="tree">
-    <div class="leaves">
-        <div class="card" id="card" onclick="openCard()">💌</div>
-    </div>
-    <div class="trunk"></div>
-</div>
+<!-- PESAWAT -->
+<div class="plane" id="plane">✈️</div>
 
-<!-- POPUP UCAPAN -->
+<!-- SURAT -->
+<div class="letter" id="letter" onclick="openCard()">💌</div>
+
+<!-- TENTARA -->
+<div class="soldier" style="left:0">🪖</div>
+<div class="soldier" style="left:120px; animation-delay:1s;">🪖</div>
+<div class="soldier" style="left:240px; animation-delay:2s;">🪖</div>
+
+<!-- POPUP -->
 <div class="popup" id="popup">
-    <h2>🎉 Happy Birthday 🎉</h2>
+    <h2>🎖️ Happy Birthday 🎖️</h2>
     <p>
-        Semoga panjang umur, sehat selalu 💖  
-        dan semoga hari hari penuh kebahagiaan ✨
+        Semoga ayah selalu kuat, tangguh,  
+        dan jadi kebanggaan seperti seorang pejuang 💖✨
     </p>
 </div>
 
+<div class="flash" id="flash"></div>
+
 <script>
+let plane = document.getElementById("plane");
+let letter = document.getElementById("letter");
 
-// jatuhkan kartu setelah 1 detik
+// asap pesawat
+setInterval(()=>{
+    let s=document.createElement("div");
+    s.className="smoke";
+    s.style.left=plane.offsetLeft+"px";
+    s.style.top=plane.offsetTop+"px";
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),2000);
+},200);
+
+// jatuhkan surat setelah pesawat lewat
 setTimeout(()=>{
-    let c = document.getElementById("card");
-    c.style.animation = "fallCard 2s forwards";
-},1000);
+    letter.style.display="block";
+    letter.style.animation="fallZigzag 4s ease-in forwards";
+},4000);
 
-// klik kartu → buka ucapan
+// klik surat
 function openCard(){
     document.getElementById("popup").classList.add("show");
-}
 
+    // flash cinematic
+    let flash=document.getElementById("flash");
+    flash.style.opacity="1";
+    setTimeout(()=>flash.style.opacity="0",200);
+}
 </script>
 
 </body>
