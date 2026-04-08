@@ -3,19 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Birthday 🌌🎂</title>
+<title>Birthday 🌳💌</title>
 
 <style>
 body {
     margin: 0;
     overflow: hidden;
     height: 100vh;
-    background: linear-gradient(to top, #0f2027, #203a43, #2a5298, #1e3c72);
+    background: radial-gradient(circle at top, #1e3c72, #2a5298, #0f2027);
     font-family: 'Poppins', sans-serif;
-}
-
-h1, h2 {
-    font-family: 'Playfair Display', serif;
 }
 
 /* BINTANG */
@@ -26,76 +22,58 @@ h1, h2 {
     background: white;
     animation: twinkle 2s infinite;
 }
-
 @keyframes twinkle {
     0%,100% { opacity: 0.2; }
     50% { opacity: 1; }
 }
 
-/* BULAN */
-.moon {
+/* POHON */
+.tree {
     position: absolute;
-    top: 60px;
-    right: 100px;
-    width: 80px;
-    height: 80px;
-    background: white;
-    border-radius: 50%;
-    box-shadow: 0 0 30px white;
+    bottom: 0;
+    left: 10%;
 }
 
-/* KUE */
-.cake {
-    position: absolute;
-    bottom: 80px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.layer {
-    width: 200px;
-    height: 60px;
-    background: brown;
-    border-radius: 20px;
-    margin: 5px auto;
-}
-
-/* LILIN */
-.candle {
-    width: 10px;
-    height: 40px;
-    background: white;
+.trunk {
+    width: 30px;
+    height: 150px;
+    background: #5c3b1e;
     margin: auto;
-    position: relative;
-    cursor: pointer;
 }
 
-.flame {
-    width: 15px;
-    height: 20px;
-    background: yellow;
+.leaves {
+    width: 150px;
+    height: 120px;
+    background: green;
     border-radius: 50%;
-    position: absolute;
-    top: -20px;
-    left: -2px;
-    animation: flicker 0.3s infinite;
+    position: relative;
+    top: -50px;
 }
 
-@keyframes flicker {
-    0% { transform: scale(1);}
-    50% { transform: scale(1.2);}
-    100% { transform: scale(1);}
-}
-
-/* TEKS */
-.title {
-    text-align: center;
-    margin-top: 40px;
-    color: white;
-}
-
-/* CARD */
+/* KARTU */
 .card {
+    position: absolute;
+    top: -100px;
+    left: 40px;
+    width: 120px;
+    height: 80px;
+    background: pink;
+    border-radius: 10px;
+    text-align: center;
+    padding-top: 10px;
+    cursor: pointer;
+    animation: none;
+}
+
+/* ANIMASI JATUH */
+@keyframes fallCard {
+    to {
+        transform: translateY(400px) rotate(20deg);
+    }
+}
+
+/* POPUP */
+.popup {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -104,13 +82,12 @@ h1, h2 {
     backdrop-filter: blur(20px);
     padding: 30px;
     border-radius: 20px;
-    text-align: center;
-    width: 300px;
     color: white;
+    text-align: center;
     transition: 0.5s;
 }
 
-.card.show {
+.popup.show {
     transform: translate(-50%, -50%) scale(1);
 }
 </style>
@@ -118,48 +95,47 @@ h1, h2 {
 
 <body>
 
-<div class="moon"></div>
-
-<div class="title">
-    <h1> Klik Lilinnya </h1>
-</div>
-
-<div class="cake">
-    <div class="candle" onclick="blowCandle()">
-        <div class="flame" id="flame"></div>
-    </div>
-    <div class="layer"></div>
-    <div class="layer"></div>
-</div>
-
-<div class="card" id="card">
-    <h2>🎉 Happy Birthday 🎉</h2>
-    <p>
-        Semoga panjang umur, sehat selalu,  
-        dan rejekinya lancar 💖✨
-    </p>
-</div>
-
-<audio id="music" src="https://www.bensound.com/bensound-music/bensound-love.mp3"></audio>
-
+<!-- BINTANG -->
 <script>
-// GENERATE BINTANG
-for(let i=0;i<150;i++){
+for(let i=0;i<100;i++){
     let s=document.createElement("div");
     s.className="star";
     s.style.left=Math.random()*100+"vw";
     s.style.top=Math.random()*100+"vh";
     document.body.appendChild(s);
 }
+</script>
 
-// KLIK LILIN
-function blowCandle(){
-    document.getElementById("flame").style.display="none";
-    document.getElementById("card").classList.add("show");
+<!-- POHON -->
+<div class="tree">
+    <div class="leaves">
+        <div class="card" id="card" onclick="openCard()">💌</div>
+    </div>
+    <div class="trunk"></div>
+</div>
 
-    let music=document.getElementById("music");
-    music.play();
+<!-- POPUP UCAPAN -->
+<div class="popup" id="popup">
+    <h2>🎉 Happy Birthday 🎉</h2>
+    <p>
+        Semoga panjang umur, sehat selalu 💖  
+        dan semoga hari hari penuh kebahagiaan ✨
+    </p>
+</div>
+
+<script>
+
+// jatuhkan kartu setelah 1 detik
+setTimeout(()=>{
+    let c = document.getElementById("card");
+    c.style.animation = "fallCard 2s forwards";
+},1000);
+
+// klik kartu → buka ucapan
+function openCard(){
+    document.getElementById("popup").classList.add("show");
 }
+
 </script>
 
 </body>
